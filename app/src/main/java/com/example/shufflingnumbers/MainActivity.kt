@@ -1,15 +1,21 @@
 package com.example.shufflingnumbers
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ListView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
+import java.util.*
+import java.util.concurrent.ThreadLocalRandom
 
 class MainActivity : AppCompatActivity() {
+
+    private var mAdapterNumbers: ArrayAdapter<Int>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 
 
             var digitInput: EditText = findViewById(R.id.editText_input)
-            val textValue: TextView = findViewById(R.id.textview_value)
+//            val textValue: TextView = findViewById(R.id.textview_value)
 
             val stringValue: String = digitInput.text.toString()
             val originalNumber: Int = Integer.parseInt(stringValue)
@@ -29,8 +35,11 @@ class MainActivity : AppCompatActivity() {
             // create a function to do the shuffling of numbers
             val newValue: Int? = doubleTheValue(originalNumber)
 
+            shuffleNumbers()
 
-            textValue.text = newValue?.let { Integer.toString(it) }
+
+//            textValue.text = newValue?.let { Integer.toString(it) }
+
 
             Snackbar.make(
                 view, "Changed value from" + originalNumber + "to " + newValue,
@@ -41,10 +50,41 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun shuffleNumbers() {
+
+//          using a listview to display the numbers
+
+        val listNumbers: ListView = findViewById(R.id.list_numbers)
+        val numbers = listOf(1, 2, 3, 4, 5, 6, 16, 15, 14, 13, 12, 11)
+        mAdapterNumbers = numbers?.let { ArrayAdapter(this, android.R.layout.simple_list_item_1, it) }
+        listNumbers.adapter = mAdapterNumbers
+
+//        shuffleArray(solutionArray)
+        for (i in numbers.indices) {
+            print(numbers[i].toString() + " ")
+        }
+        println()
+    }
+
+//    private fun shuffleArray(ar: IntArray) {
+//
+//            // If running on Java 6 or older, use `new Random()` on RHS here
+//            val rnd: Random = ThreadLocalRandom.current()
+//            for (i in ar.size - 1 downTo 1) {
+//                val index: Int = rnd.nextInt(i + 1)
+//                // Simple swap
+//                val a: Int = ar.get(index)
+//                ar.get(index) = ar.get(i)
+//                ar.get(i) = a
+//            }
+//
+//    }
+
     fun doubleTheValue(value: Int): Int {
 
           return value * 2
     }
+
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
