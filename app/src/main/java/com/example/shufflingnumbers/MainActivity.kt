@@ -6,16 +6,19 @@ import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ListView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import java.util.*
-import java.util.concurrent.ThreadLocalRandom
+import java.util.Collections.shuffle
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
     private var mAdapterNumbers: ArrayAdapter<Int>? = null
+    private var mNumbersList: ArrayList<Int>? = null
+    private var mNumber: Int? = null
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,25 +27,25 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
 
-
+// getting the edittext we are going to inouut our value into
             var digitInput: EditText = findViewById(R.id.editText_input)
 //            val textValue: TextView = findViewById(R.id.textview_value)
 
+            // Converting the value in the edittext to int so we canuse it for math operations
+
             val stringValue: String = digitInput.text.toString()
+            // the value of the inouted number in integer format
             val originalNumber: Int = Integer.parseInt(stringValue)
 
 
+
             // create a function to do the shuffling of numbers
-            val newValue: Int? = doubleTheValue(originalNumber)
-
-            shuffleNumbers()
+            shuffleNumbers(originalNumber)
 
 
-//            textValue.text = newValue?.let { Integer.toString(it) }
-
-
+//          displaying the original inputed value
             Snackbar.make(
-                view, "Changed value from" + originalNumber + "to " + newValue,
+                view, "Number inputed was: $originalNumber",
                 Snackbar.LENGTH_LONG
             )
                 .setAction("Action", null).show()
@@ -50,43 +53,33 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun shuffleNumbers() {
 
-//          using a listview to display the numbers
+    private fun shuffleNumbers(number : Int) {
 
+
+        //getting the number inputed to the edittext
+        mNumber = number
+        //creating a listview to hold the lists of numbers
         val listNumbers: ListView = findViewById(R.id.list_numbers)
-        val numbers = listOf(1, 2, 3, 4, 5, 6, 16, 15, 14, 13, 12, 11)
-        mAdapterNumbers = numbers?.let { ArrayAdapter(this, android.R.layout.simple_list_item_1, it) }
-        listNumbers.adapter = mAdapterNumbers
+        // creating an emptylist we will be adding the numbers to.
+        mNumbersList = arrayListOf()
+        mNumber?.let {
+            mNumbersList!!.add(it)
 
-//        shuffleArray(solutionArray)
-        for (i in numbers.indices) {
-            print(numbers[i].toString() + " ")
+            // subtract the inputed number and add it to the list  till the inputed number reaches 1
+            while (mNumber != 1) {
+                mNumber = mNumber!! - 1
+                mNumbersList!!.add(mNumber!!)
+            }
+
         }
-        println()
+        //kotlin function that shuffles a list
+        shuffle(mNumbersList)
+
+        // using a listview with an adapter to display the numbers
+        mAdapterNumbers = mNumbersList?.let { ArrayAdapter(this, android.R.layout.simple_list_item_1, it) }
+        listNumbers.adapter = mAdapterNumbers
     }
-
-//    private fun shuffleArray(ar: IntArray) {
-//
-//            // If running on Java 6 or older, use `new Random()` on RHS here
-//            val rnd: Random = ThreadLocalRandom.current()
-//            for (i in ar.size - 1 downTo 1) {
-//                val index: Int = rnd.nextInt(i + 1)
-//                // Simple swap
-//                val a: Int = ar.get(index)
-//                ar.get(index) = ar.get(i)
-//                ar.get(i) = a
-//            }
-//
-//    }
-
-    fun doubleTheValue(value: Int): Int {
-
-          return value * 2
-    }
-
-
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
