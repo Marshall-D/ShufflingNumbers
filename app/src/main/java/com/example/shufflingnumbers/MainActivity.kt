@@ -27,14 +27,13 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
 
-// getting the edittext we are going to inouut our value into
+// getting the edittext we are going to input our value into
             var digitInput: EditText = findViewById(R.id.editText_input)
-//            val textValue: TextView = findViewById(R.id.textview_value)
 
             // Converting the value in the edittext to int so we canuse it for math operations
 
             val stringValue: String = digitInput.text.toString()
-            // the value of the inouted number in integer format
+            // the value of the inputed number in integer format
             val originalNumber: Int = Integer.parseInt(stringValue)
 
 
