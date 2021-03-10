@@ -27,58 +27,12 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
 
-// getting the edittext we are going to input our value into
-            var digitInput: EditText = findViewById(R.id.editText_input)
 
-            // Converting the value in the edittext to int so we canuse it for math operations
-
-            val stringValue: String = digitInput.text.toString()
-            // the value of the inputed number in integer format
-            val originalNumber: Int = Integer.parseInt(stringValue)
-
-
-
-            // create a function to do the shuffling of numbers
-            shuffleNumbers(originalNumber)
-
-
-//          displaying the original inputed value
-            Snackbar.make(
-                view, "Number inputed was: $originalNumber",
-                Snackbar.LENGTH_LONG
-            )
-                .setAction("Action", null).show()
-        }
+                  }
 
     }
 
 
-    private fun shuffleNumbers(number : Int) {
-
-
-        //getting the number inputed to the edittext
-        mNumber = number
-        //creating a listview to hold the lists of numbers
-        val listNumbers: ListView = findViewById(R.id.list_numbers)
-        // creating an emptylist we will be adding the numbers to.
-        mNumbersList = arrayListOf()
-        mNumber?.let {
-            mNumbersList!!.add(it)
-
-            // subtract the inputed number and add it to the list  till the inputed number reaches 1
-            while (mNumber != 1) {
-                mNumber = mNumber!! - 1
-                mNumbersList!!.add(mNumber!!)
-            }
-
-        }
-        //kotlin function that shuffles a list
-        shuffle(mNumbersList)
-
-        // using a listview with an adapter to display the numbers
-        mAdapterNumbers = mNumbersList?.let { ArrayAdapter(this, android.R.layout.simple_list_item_1, it) }
-        listNumbers.adapter = mAdapterNumbers
-    }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
